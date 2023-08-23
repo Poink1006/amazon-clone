@@ -7,72 +7,138 @@
     class="bg-gray-200 flex flex-col items-center justify-center min-h-screen"
   >
     <h1 class="text-4xl font-bold mb-8">Rock Paper Scissors</h1>
-    <div class="flex space-x-4 mb-8">
-      <button
-        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
-        name="rock"
-        onclick="play('rock')"
-      >
-        Rock
-      </button>
-      <button
-        class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full"
-        name="paper"
-        onclick="play('paper')"
-      >
-        Paper
-      </button>
-      <button
-        class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full"
-        name="scissors"
-        onclick="play('scissors')"
-      >
-        Scissors
-      </button>
+
+    <!-- user choices -->
+    <div>
+      <h1 class="text-4xl font-bold mb-8 text-center" id="userChoice">User:</h1>
+      <div class="flex justify-center space-x-4 mb-8" id="userChoices">
+        <button
+          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full border-4 border-transparent"
+          name="rock"
+          onclick="play('rock', this)"
+        >
+          Rock
+        </button>
+        <button
+          class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full border-4 border-transparent"
+          name="paper"
+          onclick="play('paper', this)"
+        >
+          Paper
+        </button>
+        <button
+          class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full border-4 border-transparent"
+          name="scissors"
+          onclick="play('scissors', this)"
+        >
+          Scissors
+        </button>
+      </div>
+    </div>
+    <!-- computer choice -->
+    <div>
+      <h1 class="text-4xl font-bold mb-8 text-center" id="computerChoice">
+        Computer:
+      </h1>
+      <div class="flex justify-center space-x-4 mb-8" id="computerChoices">
+        <button
+          class="bg-blue-500 text-white font-bold py-2 px-4 rounded-full border-4 border-transparent"
+          name="rock"
+        >
+          Rock
+        </button>
+        <button
+          class="bg-green-500 text-white font-bold py-2 px-4 rounded-full border-4 border-transparent"
+          name="paper"
+        >
+          Paper
+        </button>
+        <button
+          class="bg-red-500 text-white font-bold py-2 px-4 rounded-full border-4 border-transparent"
+          name="scissors"
+        >
+          Scissors
+        </button>
+      </div>
     </div>
 
-    <div class="flex space-x-4">
+    <div class="flex justify-center space-x-4">
       <div class="text-center">
-        <h1 class="text-2xl font-bold">User</h1>
+        <h1 class="text-2xl font-bold" id="userLabel">User</h1>
         <h1 class="text-xl" id="userScore">0</h1>
       </div>
       <div class="text-center">
-        <h1 class="text-2xl font-bold">Computer</h1>
+        <h1 class="text-2xl font-bold" id="computerLabel">Computer</h1>
         <h1 class="text-xl" id="computerScore">0</h1>
       </div>
       <div class="text-center">
-        <h1 class="text-2xl font-bold">Draw</h1>
+        <h1 class="text-2xl font-bold" id="drawLabel">Draw</h1>
         <h1 class="text-xl" id="drawScore">0</h1>
       </div>
     </div>
   </body>
   <script>
-    const rockPaperScissor = ["rock", "paper", "scissors"];
-    let gameScore = [0, 0, 0];
+    window.onload = function () {
+      const rockPaperScissor = ["rock", "paper", "scissors"];
+      let gameScore = [0, 0, 0];
 
-    function play(choice) {
-      let userChoice = choice;
-      let computerChoice =
-        rockPaperScissor[Math.floor(Math.random() * rockPaperScissor.length)];
-      console.log(computerChoice);
-      gameRules(userChoice, computerChoice);
-      document.getElementById("userScore").innerText = gameScore[0];
-      document.getElementById("computerScore").innerText = gameScore[1];
-      document.getElementById("drawScore").innerText = gameScore[2];
-    }
+      function play(choice, button) {
+        // Remove highlight from all user choice buttons
+        document.querySelectorAll("#userChoices button").forEach((btn) => {
+          btn.classList.remove("border-yellow-600");
+        });
+        // Highlight user's choice
+        button.classList.add("border-yellow-600");
 
-    function gameRules(userChoice, computerChoice) {
-      if (userChoice === computerChoice) {
-        gameScore[2]++;
-      } else if (
-        (userChoice === "rock" && computerChoice === "scissors") ||
-        (userChoice === "paper" && computerChoice === "rock") ||
-        (userChoice === "scissors" && computerChoice === "paper")
-      ) {
-        gameScore[0]++;
-      } else {
-        gameScore[1]++;
+        let userChoice = choice;
+        let computerChoice =
+          rockPaperScissor[Math.floor(Math.random() * rockPaperScissor.length)];
+
+        // Remove highlight from all computer choice buttons
+        document.querySelectorAll("#computerChoices button").forEach((btn) => {
+          btn.classList.remove("border-yellow-600");
+        });
+        // Highlight computer's choice
+        document
+          .querySelector(`#computerChoices button[name="${computerChoice}"]`)
+          .classList.add("border-yellow-600");
+
+        console.log(computerChoice);
+        document.getElementById("userChoice").innerText = `User: ${userChoice}`;
+        document.getElementById(
+          "computerChoice"
+        ).innerText = `Computer: ${computerChoice}`;
+        gameRules(userChoice, computerChoice);
+        document.getElementById("userScore").innerText = gameScore[0];
+        document.getElementById("computerScore").innerText = gameScore[1];
+        document.getElementById("drawScore").innerText = gameScore[2];
       }
-    }
+
+      function gameRules(userChoice, computerChoice) {
+        // Remove highlight from all labels
+        document.querySelectorAll(".text-center h1").forEach((label) => {
+          label.classList.remove("text-yellow-500");
+        });
+
+        if (userChoice === computerChoice) {
+          gameScore[2]++;
+          document.getElementById("drawLabel").classList.add("text-yellow-500");
+        } else if (
+          (userChoice === "rock" && computerChoice === "scissors") ||
+          (userChoice === "paper" && computerChoice === "rock") ||
+          (userChoice === "scissors" && computerChoice === "paper")
+        ) {
+          gameScore[0]++;
+          document.getElementById("userLabel").classList.add("text-yellow-500");
+        } else {
+          gameScore[1]++;
+          document
+            .getElementById("computerLabel")
+            .classList.add("text-yellow-500");
+        }
+      }
+
+      window.play = play;
+    };
   </script>
 </html>
