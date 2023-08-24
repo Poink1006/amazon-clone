@@ -90,17 +90,19 @@
     </div>
   </body>
   <script>
+    const rockPaperScissor = ["rock", "paper", "scissors"];
+    const gameScore = { user: 0, computer: 0, draw: 0 };
+
     function resetGame() {
-      gameScore = [0, 0, 0];
-      document.getElementById("userScore").innerText = gameScore[0];
-      document.getElementById("computerScore").innerText = gameScore[1];
-      document.getElementById("drawScore").innerText = gameScore[2];
+      gameScore.user = 0;
+      gameScore.computer = 0;
+      gameScore.draw = 0;
+      document.getElementById("userScore").innerText = gameScore.user;
+      document.getElementById("computerScore").innerText = gameScore.computer;
+      document.getElementById("drawScore").innerText = gameScore.draw;
       console.log(gameScore);
     }
     window.onload = function () {
-      const rockPaperScissor = ["rock", "paper", "scissors"];
-      let gameScore = [0, 0, 0];
-
       function play(choice, button) {
         // Remove highlight from all user choice buttons
         document.querySelectorAll("#userChoices button").forEach((btn) => {
@@ -128,9 +130,9 @@
           "computerChoice"
         ).innerText = `Computer: ${computerChoice}`;
         gameRules(userChoice, computerChoice);
-        document.getElementById("userScore").innerText = gameScore[0];
-        document.getElementById("computerScore").innerText = gameScore[1];
-        document.getElementById("drawScore").innerText = gameScore[2];
+        document.getElementById("userScore").innerText = gameScore.user;
+        document.getElementById("computerScore").innerText = gameScore.computer;
+        document.getElementById("drawScore").innerText = gameScore.draw;
       }
 
       function gameRules(userChoice, computerChoice) {
@@ -140,17 +142,17 @@
         });
 
         if (userChoice === computerChoice) {
-          gameScore[2]++;
+          gameScore.draw++;
           document.getElementById("drawLabel").classList.add("text-yellow-500");
         } else if (
           (userChoice === "rock" && computerChoice === "scissors") ||
           (userChoice === "paper" && computerChoice === "rock") ||
           (userChoice === "scissors" && computerChoice === "paper")
         ) {
-          gameScore[0]++;
+          gameScore.user++;
           document.getElementById("userLabel").classList.add("text-yellow-500");
         } else {
-          gameScore[1]++;
+          gameScore.computer++;
           document
             .getElementById("computerLabel")
             .classList.add("text-yellow-500");
