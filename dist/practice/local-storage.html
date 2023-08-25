@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <title>Local Storage Practice</title>
+  <body>
+    <h1 id="player1">0</h1>
+    <button onclick="addPoint('player1', this)">Player 1</button>
+    <h1 id="player2">0</h1>
+    <button onclick="addPoint('player2', this)">Player 2</button>
+    <button onclick="resetPoints()">Reset</button>
+  </body>
+  <script>
+    let score = { player1: 0, player2: 0 };
+
+    function addPoint(player, button) {
+      score[player]++;
+      document.getElementById(player).innerHTML = score[player];
+      localStorage.setItem("score", JSON.stringify(score));
+      console.log(score);
+    }
+
+    function resetPoints() {
+      score.player1 = 0;
+      score.player2 = 0;
+      document.getElementById("player1").innerHTML = score.player1;
+      document.getElementById("player2").innerHTML = score.player2;
+      localStorage.setItem("score", JSON.stringify(score));
+      console.log(score);
+    }
+
+    const storedScore = localStorage.getItem("score");
+    if (storedScore) {
+      score = JSON.parse(storedScore);
+      document.getElementById("player1").innerHTML = score.player1;
+      document.getElementById("player2").innerHTML = score.player2;
+    }
+  </script>
+</html>
