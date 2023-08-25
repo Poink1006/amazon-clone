@@ -102,64 +102,64 @@
       document.getElementById("drawScore").innerText = gameScore.draw;
       console.log(gameScore);
     }
-    window.onload = function () {
-      function play(choice, button) {
-        // Remove highlight from all user choice buttons
-        document.querySelectorAll("#userChoices button").forEach((btn) => {
-          btn.classList.remove("border-yellow-600");
-        });
-        // Highlight user's choice
-        button.classList.add("border-yellow-600");
 
-        let userChoice = choice;
-        let computerChoice =
-          rockPaperScissor[Math.floor(Math.random() * rockPaperScissor.length)];
+    function play(choice, button) {
+      // Remove highlight from all user choice buttons
+      document.querySelectorAll("#userChoices button").forEach((btn) => {
+        btn.classList.remove("border-yellow-600");
+      });
+      // Highlight user's choice
+      button.classList.add("border-yellow-600");
 
-        // Remove highlight from all computer choice buttons
-        document.querySelectorAll("#computerChoices button").forEach((btn) => {
-          btn.classList.remove("border-yellow-600");
-        });
-        // Highlight computer's choice
+      let userChoice = choice;
+      let computerChoice =
+        rockPaperScissor[Math.floor(Math.random() * rockPaperScissor.length)];
+
+      // Remove highlight from all computer choice buttons
+      document.querySelectorAll("#computerChoices button").forEach((btn) => {
+        btn.classList.remove("border-yellow-600");
+      });
+      // Highlight computer's choice
+      document
+        .querySelector(`#computerChoices button[name="${computerChoice}"]`)
+        .classList.add("border-yellow-600");
+
+      console.log(computerChoice);
+      document.getElementById("userChoice").innerText = `User: ${userChoice}`;
+      document.getElementById(
+        "computerChoice"
+      ).innerText = `Computer: ${computerChoice}`;
+
+      gameRules(userChoice, computerChoice);
+      document.getElementById("userScore").innerText = gameScore.user;
+      document.getElementById("computerScore").innerText = gameScore.computer;
+      document.getElementById("drawScore").innerText = gameScore.draw;
+    }
+
+    function gameRules(userChoice, computerChoice) {
+      // Remove highlight from all labels
+      document.querySelectorAll(".text-center h1").forEach((label) => {
+        label.classList.remove("text-yellow-500");
+      });
+
+      if (userChoice === computerChoice) {
+        gameScore.draw++;
+        document.getElementById("drawLabel").classList.add("text-yellow-500");
+      } else if (
+        (userChoice === "rock" && computerChoice === "scissors") ||
+        (userChoice === "paper" && computerChoice === "rock") ||
+        (userChoice === "scissors" && computerChoice === "paper")
+      ) {
+        gameScore.user++;
+        document.getElementById("userLabel").classList.add("text-yellow-500");
+      } else {
+        gameScore.computer++;
         document
-          .querySelector(`#computerChoices button[name="${computerChoice}"]`)
-          .classList.add("border-yellow-600");
-
-        console.log(computerChoice);
-        document.getElementById("userChoice").innerText = `User: ${userChoice}`;
-        document.getElementById(
-          "computerChoice"
-        ).innerText = `Computer: ${computerChoice}`;
-        gameRules(userChoice, computerChoice);
-        document.getElementById("userScore").innerText = gameScore.user;
-        document.getElementById("computerScore").innerText = gameScore.computer;
-        document.getElementById("drawScore").innerText = gameScore.draw;
+          .getElementById("computerLabel")
+          .classList.add("text-yellow-500");
       }
 
-      function gameRules(userChoice, computerChoice) {
-        // Remove highlight from all labels
-        document.querySelectorAll(".text-center h1").forEach((label) => {
-          label.classList.remove("text-yellow-500");
-        });
-
-        if (userChoice === computerChoice) {
-          gameScore.draw++;
-          document.getElementById("drawLabel").classList.add("text-yellow-500");
-        } else if (
-          (userChoice === "rock" && computerChoice === "scissors") ||
-          (userChoice === "paper" && computerChoice === "rock") ||
-          (userChoice === "scissors" && computerChoice === "paper")
-        ) {
-          gameScore.user++;
-          document.getElementById("userLabel").classList.add("text-yellow-500");
-        } else {
-          gameScore.computer++;
-          document
-            .getElementById("computerLabel")
-            .classList.add("text-yellow-500");
-        }
-      }
-
-      window.play = play;
-    };
+      console.log(gameScore);
+    }
   </script>
 </html>
