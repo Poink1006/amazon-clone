@@ -91,7 +91,7 @@
   </body>
   <script>
     const rockPaperScissor = ["rock", "paper", "scissors"];
-    const gameScore = { user: 0, computer: 0, draw: 0 };
+    let gameScore = { user: 0, computer: 0, draw: 0 };
 
     function resetGame() {
       gameScore.user = 0;
@@ -101,6 +101,7 @@
       document.getElementById("computerScore").innerText = gameScore.computer;
       document.getElementById("drawScore").innerText = gameScore.draw;
       console.log(gameScore);
+      localStorage.removeItem("score");
     }
 
     function play(choice, button) {
@@ -160,6 +161,15 @@
       }
 
       console.log(gameScore);
+      localStorage.setItem("score", JSON.stringify(gameScore));
+    }
+
+    const storageScore = localStorage.getItem("score");
+    if (storageScore) {
+      gameScore = JSON.parse(storageScore);
+      document.getElementById("userScore").innerText = gameScore.user;
+      document.getElementById("computerScore").innerText = gameScore.computer;
+      document.getElementById("drawScore").innerText = gameScore.draw;
     }
   </script>
 </html>
